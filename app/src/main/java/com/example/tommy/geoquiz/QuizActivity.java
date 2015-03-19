@@ -15,6 +15,7 @@ public class QuizActivity extends Activity {
     private Button mNextButton;
     private TextView mQuestionTextView;
 
+    // this is a test
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse(R.string.question_oceans, true),
             new TrueFalse(R.string.question_mideast, false),
