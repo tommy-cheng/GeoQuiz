@@ -1,6 +1,7 @@
 package com.example.tommy.geoquiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +16,8 @@ public class QuizActivity extends Activity {
     private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
-    private ImageButton mNextButton;
-    private ImageButton mPrevButton;
+    private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
 
     // this is a test
@@ -31,6 +32,7 @@ public class QuizActivity extends Activity {
     private int mCurrentIndex = 0;
 
     private void updateQuestion() {
+        Log.d(TAG, "Current question index:" + mCurrentIndex, new Exception());
         int question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question);
     }
@@ -39,6 +41,7 @@ public class QuizActivity extends Activity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
 
         int messageResId = 0;
+
 
         if (userPressedTrue == answerIsTrue) {
             messageResId = R.string.correct_toast;
@@ -73,7 +76,7 @@ public class QuizActivity extends Activity {
             }
         });
 
-        mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mNextButton = (Button) findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,15 +85,15 @@ public class QuizActivity extends Activity {
             }
         });
 
-        mPrevButton = (ImageButton) findViewById(R.id.prev_button);
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (mCurrentIndex > 0)
-                    mCurrentIndex = mCurrentIndex - 1;
-                else
-                    mCurrentIndex = mQuestionBank.length - 1;
-                updateQuestion();
+                Intent i = new Intent(QuizActivity.this, CheatActivity.class);
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+                startActivity(i);
             }
         });
 
